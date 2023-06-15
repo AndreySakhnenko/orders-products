@@ -1,0 +1,50 @@
+{
+    "btn":{
+        "logOut":"Log Out",
+        "signIn":"Sign In",
+        "signUp":"Sign Up",
+        "delete": "Delete",
+        "cancel":"Cancel"
+    },
+    "link":{
+        "oldUser":"I Have Account",
+        "newUser":"I don’t have an account"
+    },
+    "locales":{
+        "en":"Eng",
+        "ru":"Rus",
+        "ua":"Ukr"
+    },
+    "order":{
+        "title": "Orders"
+    },
+    "product":{
+        "add":"Add product",
+        "free":"Free",
+        "quantity":"Products",
+        "popup":"Are you sure you want to remove this product?",
+        "from":"from",
+        "to":"to",
+        "specification":"Specification:"
+    },
+    "navbar":{
+        "arrival": "Arrival",
+        "groups": "Groups",
+        "products": "Products",
+        "users": "Users",
+        "settings": "Settings"
+    },
+    "form":{
+        "search":"Search",
+        "login":"login",
+        "email": "Email",
+        "password": "Password"
+    },
+    "errorText":{
+        "login":"Please enter a valid login",
+        "email": "Please enter a valid email address",
+        "password": "Password must be at least 8 characters",
+        "newUser":"You are not registered",
+        "oldUser":"Your user is already registered"    
+    }
+}
