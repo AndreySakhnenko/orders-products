@@ -3,12 +3,13 @@
     <b-navbar toggleable="lg" type="dark" class="navbar-container">
       <div class="navbar_logo">
         <div class="navbar_logo__img">
-           <img src="../../assets/images/logo.svg"/>
+          <img src="../../assets/images/logo.svg" />
         </div>
         <b-navbar-brand class="navbar_logo__link text-success"
           >Inventory</b-navbar-brand
         >
       </div>
+
       <b-nav-form>
         <b-form-input
           size="sm"
@@ -40,9 +41,11 @@
     </b-navbar>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { Header } from "../../types/header";
+import Vue from "vue";
 export default {
-  data() {
+  data(): Header {
     return {
       locales: [
         { name: "locales.en", lang: "en" },
@@ -68,7 +71,7 @@ export default {
     this.updateDateTime();
   },
   methods: {
-    switchLocale(locale) {
+    switchLocale(locale: string) {
       document.body.classList.add("lang-changing");
       this.$i18n.locale = locale;
       setTimeout(() => {
@@ -78,17 +81,17 @@ export default {
       localStorage.setItem("selectedLanguage", locale);
     },
     updateDateTime() {
-        const now = new Date();
-        this.currentDayOfWeek = now.toLocaleString("default", {
-          weekday: "long",
-        });
-        this.currentMonth = now.toLocaleString("default", { month: "long" });
-        this.currentDay = now.getDate();
-        this.currentYear = now.getFullYear();
-        this.currentTime = now.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
+      const now = new Date();
+      this.currentDayOfWeek = now.toLocaleString("default", {
+        weekday: "long",
+      });
+      this.currentMonth = now.toLocaleString("default", { month: "long" });
+      this.currentDay = now.getDate();
+      this.currentYear = now.getFullYear();
+      this.currentTime = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     },
   },
 };
@@ -108,16 +111,16 @@ export default {
 }
 .navbar-container {
   justify-content: space-between;
-  padding-left: 20%;
+  padding-left: 15%;
   padding-right: 20px;
   width: 100%;
 }
-.navbar_logo{
+.navbar_logo {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.navbar_logo__link{
+.navbar_logo__link {
   font-weight: 500;
 }
 .header_input__search {
@@ -176,5 +179,10 @@ export default {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+@media screen and (max-width: 989px) {
+  .navbar-container {
+    padding-left: 20%;
+  }
 }
 </style>

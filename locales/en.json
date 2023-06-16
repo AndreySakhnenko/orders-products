@@ -46,5 +46,6 @@
         "password": "Password must be at least 8 characters",
         "newUser":"You are not registered",
         "oldUser":"Your user is already registered"    
-    }
+    },
+    "back_to_homepage":"back to homepage"
 }

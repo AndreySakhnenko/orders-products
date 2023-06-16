@@ -65,57 +65,65 @@
      </transition>
   </div>
 </template>
-<script>
-import { fetchProducts } from "../plugins/data.js";
-import DeletePopup from "@/components/app-DeletePopup";
+<script lang="ts">
+import { fetchProducts,  } from "../plugins/data";
+import { Product, DataProducts } from "../types/orders-products";
+import DeletePopup from "@/components/app-DeletePopup.vue";;
 import Vue from "vue";
+
 export default Vue.extend({
   components: {
     DeletePopup,
-    sortOption: "",
   },
-  data() {
+  data(): DataProducts {
     return {
-      products: [],
+      products : [],
       showDeletePopup: false,
-      selectedProduct: null,
+      selectedProduct: null ,
       sortOption: "All",
     };
   },
   async mounted() {
     const oldUserData = localStorage.getItem("oldUser")
-      ? JSON.parse(localStorage.getItem("oldUser"))
+      ? JSON.parse(localStorage.getItem("oldUser") as string)
       : null;
     if (!oldUserData) {
       await this.$router.push({ name: "index" });
     }
-    this.products = await fetchProducts();
+    const storedProducts = localStorage.getItem('products');
+    if (storedProducts) {
+      this.products = JSON.parse(storedProducts);
+    } else {
+      this.products = await fetchProducts();
+    }
+    // this.products = await fetchProducts();
   },
-  computed:{
-     sortedProducts() {
+  computed: {
+    sortedProducts(): Product[] {
       if (this.sortOption === "specification") {
-        return this.products.sort((a, b) => a.specification.localeCompare(b.specification));
+        return this.products.sort((a: Product, b: Product) =>
+          a.specification.localeCompare(b.specification)
+        );
       } else if (this.sortOption === "All") {
-        return this.products.sort((a, b) => a.id - b.id);
+        return this.products.sort((a: Product, b: Product) => a.id - b.id);
       }
       return this.products;
     },
   },
   methods: {
-    formatDate(dateString) {
+     formatDate(dateString: string): string {
       const date = new Date(dateString);
-      const options = { day: "numeric", month: "numeric", year: "numeric" };
+      const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
       const formattedDate = date.toLocaleDateString(undefined, options);
-      const parts = formattedDate.split(".");
-      const formattedParts = parts.map((part) => part.trim()).join(" / ");
-      return formattedParts;
+      const parts = formattedDate.split(" ");
+      return `${parts[0]} / ${parts[1]} / ${parts[2]}`;
     },
-    imageExists(url) {
+    imageExists(url: string): boolean {
       var img = new Image();
       img.src = url;
       return img.complete || img.width > 0 || img.height > 0;
     },
-    showPopup(product) {
+    showPopup(product: Product) {
       this.selectedProduct = product;
       this.showDeletePopup = true;
     },
@@ -124,18 +132,28 @@ export default Vue.extend({
       this.selectedProduct = null;
     },
     deleteProduct() {
-      const productId = this.selectedProduct.id;
-      const updatedProducts = this.products.filter((product) => product.id !== productId);
-      this.products = updatedProducts;
-          console.log(productId)
-      this.closePopup();
-    },
+  const productId = this.selectedProduct?.id;
+  if (productId) {
+    const updatedProducts = this.products.filter(
+      (product) => product.id !== productId
+    );
+    this.products = updatedProducts;
+    localStorage.setItem('products', JSON.stringify(updatedProducts));
+    console.log(productId);
+
+    if (updatedProducts.length < 1) {
+      localStorage.removeItem('products');
+    }
+  }
+  this.closePopup();
+},
     sortProducts() {
       this.products = this.sortedProducts;
     },
   },
 });
 </script>
+
 
 <style scoped>
 .form-select{

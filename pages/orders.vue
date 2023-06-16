@@ -58,17 +58,19 @@
     </transition>
   </div>
 </template>
-<script>
-import { fetchOrders } from "../plugins/data.js";
+<script lang="ts">
+import { fetchOrders } from "../plugins/data";
+import { Order, Product, DataOrders } from "../types/orders-products";
 import OrderProduct from "@/components/app-OrderProducts.vue";
-import DeletePopup from "@/components/app-DeletePopup";
+import DeletePopup from "@/components/app-DeletePopup.vue";
 import Vue from "vue";
+
 export default Vue.extend({
   components: {
     OrderProduct,
     DeletePopup,
   },
-  data() {
+  data(): DataOrders {
     return {
       isActive: false,
       orders: [],
@@ -78,48 +80,62 @@ export default Vue.extend({
       selectedProduct: null,
     };
   },
+
   async mounted() {
     const oldUserData = localStorage.getItem("oldUser")
-      ? JSON.parse(localStorage.getItem("oldUser"))
+      ? JSON.parse(localStorage.getItem("oldUser") as string)
       : null;
     if (!oldUserData) {
       await this.$router.push({ name: "index" });
     }
-    this.orders = await fetchOrders();
+
+    const storedOrders = localStorage.getItem("orders");
+    if (storedOrders) {
+      this.orders = JSON.parse(storedOrders);
+      console.log("good");
+    } else {
+      console.log("bad");
+      this.orders = await fetchOrders();
+    }
   },
   computed: {
-    getExpandedOrderProducts() {
+    getExpandedOrderProducts(): Product[] {
       const expandedOrder = this.orders.find(
-        (order) => order.id === this.expandedOrder
+        (order: Order) => order.id === this.expandedOrder
       );
       return expandedOrder ? expandedOrder.products : [];
     },
   },
   methods: {
-    formatDate(dateString) {
+    formatDate(dateString: string): string {
       const date = new Date(dateString);
-      const options = { day: "numeric", month: "long", year: "numeric" };
+      const options: Intl.DateTimeFormatOptions = {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      };
       const formattedDate = date.toLocaleDateString(undefined, options);
       const parts = formattedDate.split(" ");
       return `${parts[0]} / ${parts[1]} / ${parts[2]}`;
     },
-    updateShowDeletePopup(value) {
+    updateShowDeletePopup(value: boolean) {
       this.showDeletePopup = value;
     },
-    openProduct(orderId) {
+    openProduct(orderId: number) {
       this.expandedOrder = orderId;
-      this.selectedOrder = this.orders.find((order) => order.id === orderId);
+      this.selectedOrder =
+        this.orders.find((order: Order) => order.id === orderId) || null;
       this.isActive = true;
     },
-    isExpanded(orderId) {
+    isExpanded(orderId: number): boolean {
       return this.expandedOrder === orderId;
     },
     closeProduct() {
       this.isActive = false;
-      this.expandedOrder = false;
+      this.expandedOrder = null;
       this.selectedOrder = null;
     },
-    showPopup(product) {
+    showPopup(product: Product) {
       this.selectedProduct = product;
       this.showDeletePopup = true;
     },
@@ -128,17 +144,34 @@ export default Vue.extend({
       this.selectedProduct = null;
     },
     deleteProduct() {
-      const productId = this.selectedProduct.id;
-      const updatedProducts = this.selectedOrder.products.filter(
-        (product) => product.id !== productId
-      );
-      this.selectedOrder = {
-        ...this.selectedOrder,
-        products: updatedProducts,
-      };
-      console.log(this.selectedOrder.products);
-      console.log(updatedProducts);
-      this.closePopup();
+      if (this.selectedOrder && this.selectedProduct) {
+        const productId = this.selectedProduct.id;
+        const updatedProducts = this.selectedOrder.products.filter(
+          (product: Product) => product.id !== productId
+        );
+
+        const updatedOrder = {
+          ...this.selectedOrder,
+          products: updatedProducts,
+        };
+
+        const updatedOrders = this.orders.map((order: Order) => {
+          if (order.id === this.selectedOrder?.id) {
+            return updatedOrder;
+          }
+          return order;
+        });
+
+        this.selectedOrder = updatedOrder;
+        this.orders = updatedOrders;
+        localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+        if (updatedProducts.length < 1) {
+          localStorage.removeItem("orders");
+        }
+
+        this.closePopup();
+      }
     },
   },
 });
@@ -224,5 +257,11 @@ export default Vue.extend({
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 989px) {
+  #orders {
+    gap: 30px;
+    padding: 40px;
+  }
 }
 </style>

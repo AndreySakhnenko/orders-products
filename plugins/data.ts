@@ -1,3 +1,5 @@
+import { Order, Product } from "../types/orders-products";
+
 const orders = [
   {
     id: 1,
@@ -69,15 +71,16 @@ const products = [
   },
 ];
 
-function fetchOrders() {
-  return new Promise((resolve, reject) => {
+function fetchOrders(): Promise<Order[]> {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(orders);
     }, 1000);
   });
 }
-function fetchProducts() {
-  return new Promise((resolve, reject) => {
+
+function fetchProducts(): Promise<Product[]> {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(products);
     }, 1000);
@@ -87,8 +90,3 @@ function fetchProducts() {
 export { fetchProducts };
 export { fetchOrders };
 
-const a = 1;
-const b = 2;
-function test() {
-  alert1;
-}

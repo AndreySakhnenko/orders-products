@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Header from "@/components/layout/app-header.vue";
 import Navbar from "@/components/navbar/app-navbar.vue";
 import Preloader from '~/components/Preloader.vue';
@@ -34,7 +34,7 @@ export default {
   },
   data(){
     return{
-      loading: true
+      loading: true as boolean,
     }
   },
   mounted() {

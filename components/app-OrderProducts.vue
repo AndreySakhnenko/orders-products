@@ -63,6 +63,8 @@ props: {
       return this.selectedOrder ? this.selectedOrder.products : [];
     },
   },
+  
+  
   methods: {
     imageExists(url: string) {
     var img = new Image();
@@ -76,7 +78,9 @@ props: {
       this.$emit('update:selectedProduct', product);
       this.$emit('update:showDeletePopup', true);
     },
+    
   },
+  
 });
 </script>
 <style scoped>

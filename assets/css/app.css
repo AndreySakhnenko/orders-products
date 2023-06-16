@@ -34,7 +34,7 @@ h1,h2,h3,h4,h5,h6,p{
 }
 .content_pages {
   background: #e3e3e3;
-  width: 80%;
+  width: 85%;
 }
 .content_pages.content_home__page{
   width: 100%;
@@ -42,4 +42,9 @@ h1,h2,h3,h4,h5,h6,p{
 .b-avatar-group-inner{
   display: block !important;
   margin-bottom: 10px;
+}
+@media screen and (max-width: 989px) {
+  .content_pages {
+    width: 80%;
+  }
 }

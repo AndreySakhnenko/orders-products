@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center py-40">
+  <div class="error_container text-center">
     <h1 class="font-bold text-[9.35rem] leading-none">
       <span>4</span><span class="text-primary">0</span><span>4</span>
     </h1>
@@ -19,3 +19,11 @@ export default Vue.extend({
   name: "Error",
 });
 </script>
+<style scoped>
+.error_container{
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>

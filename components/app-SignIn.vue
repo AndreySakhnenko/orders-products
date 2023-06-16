@@ -40,21 +40,23 @@
 </div>
 </template>
 
-<script >
+<script lang="ts">
+import { DataSignIn, User } from "../types/registration";
 import Vue from "vue";
+
 export default Vue.extend({
- data(){
-    return{
+  data(): DataSignIn {
+    return {
       oldUser: [],
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       emailError: false,
       passwordError: false,
-      errorLogIn: false
-    }
+      errorLogIn: false,
+    };
   },
-  methods:{
-    toggleLogin(){
+  methods: {
+    toggleLogin() {
       this.$emit("show-login");
     },
     validateForm() {
@@ -69,30 +71,32 @@ export default Vue.extend({
       }
       return !this.emailError && !this.passwordError;
     },
-   async submitSignIn() {
-    if (this.validateForm()) {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const user = users.find((user) => user.email === this.email && user.password === this.password);
+    async submitSignIn() {
+      if (this.validateForm()) {
+        const users = JSON.parse(localStorage.getItem("users") as string) || [];
+        const user = users.find(
+          (user: User) => user.email === this.email && user.password === this.password
+        );
 
-      if (user) {
-        const oldUser = {
-          name: user.fullname,
-          email: user.email,
-          password: user.password,
+        if (user) {
+         const oldUser = {
+              name: user.fullname,
+              email: user.email,
+              password: user.password,
+            } as  User;
+          this.oldUser.push(oldUser);
+          localStorage.setItem("oldUser", JSON.stringify(this.oldUser));
+          await this.$router.push("/orders");
+          console.log("User found:", user);
+        } else {
+          this.errorLogIn = true;
+          console.log("User not found");
         }
-         this.oldUser.push(oldUser);
-        localStorage.setItem("oldUser", JSON.stringify(this.oldUser));
-        await this.$router.push('/orders');
-        console.log("User found:", user);
-      } else {
-        this.errorLogIn = true
-        console.log("User not found");
-      }
 
-    this.email = "";
-    this.password = "";
-  }
-},
-  }
-})
+        this.email = "";
+        this.password = "";
+      }
+    },
+  },
+});
 </script>
