@@ -92,9 +92,7 @@ export default Vue.extend({
     const storedOrders = localStorage.getItem("orders");
     if (storedOrders) {
       this.orders = JSON.parse(storedOrders);
-      console.log("good");
     } else {
-      console.log("bad");
       this.orders = await fetchOrders();
     }
   },

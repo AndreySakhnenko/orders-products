@@ -90,7 +90,7 @@ export default Vue.extend({
       passwordError: false,
       isActive: true,
       newUserError: false,
-    } ;
+    };
   },
   methods: {
     toggleLogin() {
@@ -116,7 +116,8 @@ export default Vue.extend({
       if (this.validateForm()) {
         const users = JSON.parse(localStorage.getItem("users") as string) || [];
         const user = users.find(
-          (user: User) => user.email === this.email && user.password === this.password
+          (user: User) =>
+            user.email === this.email && user.password === this.password
         );
         if (!user) {
           const newUser = {

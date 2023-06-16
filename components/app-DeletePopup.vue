@@ -1,12 +1,12 @@
 <template>
   <div class="popup_delete">
     <div class="popup_container">
-    <div @click="closePopup" class="popup__close">
-      <img src="../assets/images/close.svg"/>
-    </div>
+      <div @click="closePopup" class="popup__close">
+        <img src="../assets/images/close.svg" />
+      </div>
       <div class="popup_content">
-        <h4>{{$t("product.popup")}}</h4>
-          <hr>
+        <h4>{{ $t("product.popup") }}</h4>
+        <hr />
         <div class="popup_product">
           <div class="product_img">
             <img
@@ -23,13 +23,17 @@
         </div>
       </div>
       <div class="popup_btn">
-        <button class="btn-cancel" @click="closePopup">{{$t('btn.cancel')}}</button>
+        <button class="btn-cancel" @click="closePopup">
+          {{ $t("btn.cancel") }}
+        </button>
         <button class="btn-delete" @click="deleteProduct">
           <svg>
-              <use xlink:href="../assets/images/sprite/delete-sprite.svg#delete"></use>
-            </svg>
-          {{$t('btn.delete')}}
-          </button>
+            <use
+              xlink:href="../assets/images/sprite/delete-sprite.svg#delete"
+            ></use>
+          </svg>
+          {{ $t("btn.delete") }}
+        </button>
       </div>
     </div>
   </div>
@@ -60,24 +64,23 @@ export default Vue.extend({
     closePopup() {
       this.$emit("close-popup");
     },
-    
   },
 });
 </script>
 <style scoped>
-.popup__close{
-   position: absolute;
+.popup__close {
+  position: absolute;
   cursor: pointer;
   max-width: 30px;
   height: 30px;
   width: 100%;
   right: -15px;
   top: -15px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 10px rgba(196, 196, 196, 0.25);
   border-radius: 50%;
 }
-.popup__close > img{
+.popup__close > img {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -117,7 +120,7 @@ export default Vue.extend({
   transition: all 0.2s;
   padding: 15px 0;
 }
-hr{
+hr {
   background: #ced4da;
   margin: 15px -20px 0 -20px;
 }
@@ -138,7 +141,7 @@ hr{
 .product_info {
   padding-left: 20px;
 }
-.product_info__title{
+.product_info__title {
   font-size: 16px;
   line-height: 16px;
   font-weight: 600;
@@ -146,11 +149,11 @@ hr{
   color: #000;
   margin-bottom: 5px;
 }
-.product_info__sn{
+.product_info__sn {
   font-size: 14px;
-    line-height: 14px;
-    color: #ccc;
-    font-weight: 400;
+  line-height: 14px;
+  color: #ccc;
+  font-weight: 400;
 }
 .popup_btn {
   background: #329b07;
@@ -176,7 +179,7 @@ hr{
   color: red;
   background: #fff;
 }
-.btn-delete > svg{
+.btn-delete > svg {
   width: 15px;
   height: 15px;
 }

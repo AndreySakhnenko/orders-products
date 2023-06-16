@@ -17,6 +17,8 @@ $ npm run start
 $ npm run generate
 ```
 
+node -v 16.17.0
+
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 
 ## Special Directories
@@ -67,3 +69,12 @@ More information about the usage of this directory in [the documentation](https:
 This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+
+
+Основна функціональність проекта:
+1)Добавив можливість перевіркі користувача при регістрації та авторизації за допомогою localStorage. Також присутня валідація форми та перевірка користувача в системі.
+2)Видалення продукта в компонентах orders та products. Сортування продукта по specification.
+3)Також в проекті присутня локалізація.
+4)В Header добавленно дату та час.
+5)Використання анімації transition при переході між роутами.
+Використав наступний стек: Nuxtjs,TypeScript,i18n,Web Storage

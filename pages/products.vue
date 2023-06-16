@@ -6,15 +6,26 @@
       </h4>
       <div class="product_select">
         <span>{{ $t("product.specification") }}</span>
-        <select class="form-select" aria-label="Default select example" v-model="sortOption" @change="sortProducts">
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          v-model="sortOption"
+          @change="sortProducts"
+        >
           <option value="All">All</option>
-          <option value="specification">{{ $t("product.specification") }}</option>
+          <option value="specification">
+            {{ $t("product.specification") }}
+          </option>
         </select>
       </div>
     </div>
     <div class="products_content">
       <div class="products_blocks">
-        <div class="product_block" v-for="product in sortedProducts" :key="product.id">
+        <div
+          class="product_block"
+          v-for="product in sortedProducts"
+          :key="product.id"
+        >
           <div class="product_img">
             <img
               :src="product.photo"
@@ -55,20 +66,20 @@
         </div>
       </div>
     </div>
-     <transition name="popup">
-    <DeletePopup
-      v-if="showDeletePopup"
-      :product="selectedProduct"
-      @delete-product="deleteProduct"
-      @close-popup="closePopup"
-    />
-     </transition>
+    <transition name="popup">
+      <DeletePopup
+        v-if="showDeletePopup"
+        :product="selectedProduct"
+        @delete-product="deleteProduct"
+        @close-popup="closePopup"
+      />
+    </transition>
   </div>
 </template>
 <script lang="ts">
-import { fetchProducts,  } from "../plugins/data";
+import { fetchProducts } from "../plugins/data";
 import { Product, DataProducts } from "../types/orders-products";
-import DeletePopup from "@/components/app-DeletePopup.vue";;
+import DeletePopup from "@/components/app-DeletePopup.vue";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -77,9 +88,9 @@ export default Vue.extend({
   },
   data(): DataProducts {
     return {
-      products : [],
+      products: [],
       showDeletePopup: false,
-      selectedProduct: null ,
+      selectedProduct: null,
       sortOption: "All",
     };
   },
@@ -90,7 +101,7 @@ export default Vue.extend({
     if (!oldUserData) {
       await this.$router.push({ name: "index" });
     }
-    const storedProducts = localStorage.getItem('products');
+    const storedProducts = localStorage.getItem("products");
     if (storedProducts) {
       this.products = JSON.parse(storedProducts);
     } else {
@@ -111,9 +122,13 @@ export default Vue.extend({
     },
   },
   methods: {
-     formatDate(dateString: string): string {
+    formatDate(dateString: string): string {
       const date = new Date(dateString);
-      const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
+      const options: Intl.DateTimeFormatOptions = {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      };
       const formattedDate = date.toLocaleDateString(undefined, options);
       const parts = formattedDate.split(" ");
       return `${parts[0]} / ${parts[1]} / ${parts[2]}`;
@@ -132,21 +147,20 @@ export default Vue.extend({
       this.selectedProduct = null;
     },
     deleteProduct() {
-  const productId = this.selectedProduct?.id;
-  if (productId) {
-    const updatedProducts = this.products.filter(
-      (product) => product.id !== productId
-    );
-    this.products = updatedProducts;
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
-    console.log(productId);
+      const productId = this.selectedProduct?.id;
+      if (productId) {
+        const updatedProducts = this.products.filter(
+          (product) => product.id !== productId
+        );
+        this.products = updatedProducts;
+        localStorage.setItem("products", JSON.stringify(updatedProducts));
 
-    if (updatedProducts.length < 1) {
-      localStorage.removeItem('products');
-    }
-  }
-  this.closePopup();
-},
+        if (updatedProducts.length < 1) {
+          localStorage.removeItem("products");
+        }
+      }
+      this.closePopup();
+    },
     sortProducts() {
       this.products = this.sortedProducts;
     },
@@ -156,7 +170,7 @@ export default Vue.extend({
 
 
 <style scoped>
-.form-select{
+.form-select {
   cursor: pointer;
 }
 #products {
@@ -165,7 +179,7 @@ export default Vue.extend({
   padding: 60px;
   flex-direction: column;
 }
-.products_top{
+.products_top {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -173,11 +187,11 @@ export default Vue.extend({
 .products_top__title {
   font-weight: 600;
 }
-.product_select > span{
+.product_select > span {
   color: #a9a9a9;
   font-size: 14px;
 }
-.product_select > select{
+.product_select > select {
   width: 200px;
   margin-left: 10px;
 }
@@ -224,7 +238,7 @@ export default Vue.extend({
   height: 15px;
   display: inherit;
 }
-.delete_product > svg{
+.delete_product > svg {
   width: 100%;
   height: 100%;
 }
