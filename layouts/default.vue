@@ -26,7 +26,9 @@
 import Header from "@/components/layout/app-header.vue";
 import Navbar from "@/components/navbar/app-navbar.vue";
 import Preloader from '~/components/Preloader.vue';
-export default {
+
+import Vue from "vue";
+export default Vue.extend({
   components: {
     Header,
     Navbar,
@@ -42,10 +44,10 @@ export default {
   },
   computed: {
     isHomePage() {
-      return this.$route.path === '/';
+       return this.$route.path === '/';
     },
   },
-};
+});
 </script>
 
 <style scoped>

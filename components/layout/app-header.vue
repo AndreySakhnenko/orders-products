@@ -44,7 +44,7 @@
 <script lang="ts">
 import { Header } from "../../types/header";
 import Vue from "vue";
-export default {
+export default Vue.extend({
   data(): Header {
     return {
       locales: [
@@ -94,7 +94,7 @@ export default {
       });
     },
   },
-};
+});
 </script>
 <style>
 .lang-changing {
